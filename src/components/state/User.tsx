@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type AuthUser = {
     name : string,
@@ -6,7 +6,7 @@ type AuthUser = {
 };
 
 export const User = () => {
-    const [user, setUser] = useState<AuthUser | null>(null);
+    const [user, setUser] = useState<AuthUser>({} as AuthUser);
 
     const handleLogin = () => {
         setUser({
@@ -15,20 +15,15 @@ export const User = () => {
         });
     };
 
-    const handleLogout = () => {
-        setUser(null);
-    };
+    useEffect(() => {
+        handleLogin();
+    }, []);
 
     return (
         <div>
             <button onClick={handleLogin}>Login</button>
-            <button onClick={handleLogout}>Logout</button>
-            {user && (
-                <div>
-                    <div>User name is <code>{user.name}</code>.</div>
-                    <div>User email is <code>{user.email}</code>.</div>
-                </div>
-            )}
+            <div>User name is <code>{user.name}</code>.</div>
+            <div>User email is <code>{user.email}</code>.</div>
         </div>
     );
 };
